@@ -34,7 +34,48 @@ Każdy klient ma możliwość publikowania oraz otrzymywania postów w czasie rz
 
 ## Zadanie 1.
 
-`ToDo..`
+### Atak typu Stored XSS
+
+Nasza aplikacja ma parę wad. Jedną z nich jest brak zabezpieczeń przed atakami XSS typu Stored.
+
+Przeprowadź taki atak powodując ujawnienie pozycji naszej myszki w konsoli.
+
+<details>
+<summary>Rozwiązanie</summary>
+
+Zamieść przykłądowy post:
+```
+<img src='*' onmouseover="document.addEventListener('mousemove', (event) => {
+    console.log(`Mouse moved to: X=${event.clientX}, Y=${event.clientY}`);
+  });"/>
+```
+</details>
+
+### Zabezpieczenie aplikacji
+
+Jedną z metod zapobiegania ataków XSS typu stored jest tzw. [sanityzacja](https://bito.ai/resources/sanitize-input-javascript-javascript-explained/), która zapobiega zapisywaniu zainfekowanych wiadomości w bazie danych.
+Zabezpiecz naszą aplikacje implementując [funkcję](./xss-app/src/utils/sanitizeInput.ts) do sanityzacji danych wejściowych.
+
+<details><summary>Rozwiązanie</summary>
+
+Funkcja w pliku `/xss-app/utils/sanitizeInput.ts`
+```typescript
+const sanitizeInput = (input: string): string => {
+    const map: Record<string, string> = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;',
+        '/': '&#x2F;',
+      };
+    
+      const reg: RegExp = /[&<>"'/]/g;
+    
+      return input.replace(reg, (match: string): string => map[match]);
+}
+```
+</details>
 
 ## Zadanie 2.
 

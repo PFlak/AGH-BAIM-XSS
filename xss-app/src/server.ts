@@ -11,6 +11,7 @@ import Post from './types/Post';
 // import sanitizeUserInput from './utils/sanitizeUserInput';
 import path from 'path';
 import formatDate from './utils/formatDate';
+import sanitizeInput from './utils/sanitizeInput';
 
 const app = express();
 
@@ -28,6 +29,8 @@ io.on('connection', client => {
 	client.on('message', (msg: string) => {
 
 		logger.info(`client (ID=${client.id}) sent message: ${msg}`);
+
+        msg = sanitizeInput(msg)
 
 		const newMessage: Post = {
 			clientId: client.id,
