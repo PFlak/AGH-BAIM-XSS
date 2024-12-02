@@ -24,8 +24,8 @@ const displayQueryParams = () => {
         const nameTd = document.createElement('td');
         const valueTd = document.createElement('td');
 
-        nameTd.innerHTML = name; // do not use innerHTML
-        valueTd.innerHTML = value; // do not use innerHTML
+        nameTd.innerHTML = name;
+        valueTd.innerHTML = value;
 
         tr.appendChild(nameTd);
         tr.appendChild(valueTd);

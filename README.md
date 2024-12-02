@@ -79,7 +79,64 @@ const sanitizeInput = (input: string): string => {
 
 ## Zadanie 2.
 
-`ToDo..`
+### Atak typu Reflected XSS
+
+Poniżej postów widoczne są dwie tabele, które pomogą w wizualizacji i zrozumieniu przeprowadzanego ataku Reflected XSS.
+
+Tabela oznaczona jako Client Side pokazuje nazwę i wartość parametru podanego w linku, które są renderowane po stronie klienta, czyli w przeglądarce.
+
+Tabela Server Side pokazuje analogicznie nazwę i wartość parametru, ale renderowanego po stronie serwera.
+
+Użyj wyszukiwarki i wstrzyknij dowolny kod poprzez link URL
+
+<details>
+<summary>Rozwiązanie</summary>
+
+przykładowy link
+```html
+http://localhost:3000/?param=<h1>to jest zainfekowana wiadomość</h1>
+```
+
+</details>
+
+### Zabezpieczenie aplikacji
+
+Zabezpiecz stronę przed atakami XSS typu Reflected
+
+Warto zauważyć, że dane wyświetlane za pomocą Server Side Rendering są ujęte w tagi charakterystyczne dla formatu `EJS` - `<%`.
+
+Zapoznaj się z [dokumentacją](https://ejs.co/#docs) EJS, zwróć uwagę na różnice między różnymi tagami.
+
+Przeanalizuj kod znajdujący się w pliku [index.ejs](./xss-app/src/views/index.ejs) i użyj odpowiednich tagów tak, aby kod HTML nie był renderowany. Poprawne rozwiązanie zadania poskutkuje różnym wyświetlaniem wartości zainfekowanych parametrów w tabelach Client Side oraz Server Side.
+
+<details>
+<summary>Rozwiązanie</summary>
+
+oryginalny fragment kodu:
+```html
+      <tbody>
+        <% queryParams.forEach(param => { %>
+          <tr>
+              <td><%- param.name %></td>
+              <td><%- param.value%></td>
+          </tr>
+        <%}); %>
+      </tbody>
+```
+
+zmieniony fragment kodu
+```html
+      <tbody>
+        <% queryParams.forEach(param => { %>
+          <tr>
+              <td><%= param.name %></td>
+              <td><%= param.value%></td>
+          </tr>
+        <%}); %>
+      </tbody>
+```
+
+</details>
 
 ## Zadanie 3.
 
