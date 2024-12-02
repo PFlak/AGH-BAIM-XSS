@@ -59,6 +59,36 @@
             </div>
         <% }); %>
     </div>
+
+    <h1>Rendered parameters</h1>
+    <h2>Client side</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">name</th>
+          <th scope="col">value</th>
+        </tr>
+      </thead>
+      <tbody id="queryParamsTable">
+      </tbody>
+    </table>
+    <h2>Server side</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">name</th>
+          <th scope="col">value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% queryParams.forEach(param => { %>
+          <tr>
+              <td><%- param.name %></td>
+              <td><%- param.value%></td>
+          </tr>
+        <%}); %>
+      </tbody>
+    </table>
   </div>
 </body>
 </html>
