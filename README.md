@@ -83,4 +83,30 @@ const sanitizeInput = (input: string): string => {
 
 ## Zadanie 3.
 
-`ToDo..`
+### Atak typu DOM-based XSS
+
+Nasza aplikacja nie jest zabezpieczona również przed atakiem XSS typu DOM-based.
+
+Aby przetestować działanie wpisz w pasek URL przykładowo:
+
+`http://localhost:3000/?param1=<h1>hello</h1>`
+
+### Zabezpieczenie aplikacji
+
+DOM-based XSS jest najczęściej spowodowany użyciem złej metody w JavaScript do wyświetlania danych na stronie. Powinno się unikać używania metody `innerHTML`, ponieważ jest ona niebezpieczna. 
+
+Zamień użycie `innerHTML` w plikach aplikacji na bezpieczne metody takie jak `innerText`.
+
+<details><summary>Rozwiązanie</summary>
+
+```typescript
+// app.js file
+msgAuthorDiv.innerText = `${messageObj.clientId !== socket.id ? messageObj.clientId : 'you'}:`; 
+msgContentDiv.innerText = messageObj.content;
+msgTimestampDiv.innerText = formatDate(messageObj.timestamp);
+
+// queryParams.js
+nameTd.innerText = name;
+valueTd.innerText = value;
+```
+</details>
